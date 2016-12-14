@@ -10,16 +10,6 @@ use AppBundle\Entity\Slot;
 
 class StudyCourseRepository extends EntityRepository
 {
-    /**
-     * @return Studycourse
-     */
-    public function findStudyCourseByStudyCoursename($studycourseName)
-    {
-        return $this->findOneBy(['studycourseName' => $studycourseName]);
-    }
-
-
-
 
 
 }

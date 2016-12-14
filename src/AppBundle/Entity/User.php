@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as Serializer;
@@ -13,15 +14,10 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class User implements UserInterface
 {
-<<<<<<< HEAD
-    const USERROLE_DEFAULT = 'ROLE_USER';
-    const USERROLE_STUDENT = 'ROLE_STUDENT';
-    const USERROLE_PROF = 'ROLE_PROF';
-=======
     const ROLE_DEFAULT = 'ROLE_USER';
     const ROLE_STUDENT = 'ROLE_STUDENT';
     const ROLE_PROF = 'ROLE_PROF';
->>>>>>> 73fdfb9c9c99bb11206b13bdf2447394c197b7a9
+
 
     /**
      * @ORM\Id
@@ -32,112 +28,86 @@ class User implements UserInterface
     private $id;
 
     /**
-<<<<<<< HEAD
-     * @ORM\Column(type="string")
-=======
+
      * @ORM\Column(type="string", unique=true)
      * @Serializer\Expose
->>>>>>> 73fdfb9c9c99bb11206b13bdf2447394c197b7a9
      */
     private $username;
 
     /**
      * @ORM\Column(type="string")
-     */
-    private $usersurname;
-
-    /**
-     * @ORM\Column(type="string", unique=true)
      * @Serializer\Expose
      */
-    private $email;
+    private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string")
+     * @Serializer\Expose
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
     /**
-<<<<<<< HEAD
-     * @ORM\OneToMany(targetEntity="Slot", mappedBy="user")
-     * one student belong to many slots
-     */
-    private $slot;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="user")
-     * one professor belong to many meetings
-     */
-    private $meeting;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Studycourse", mappedBy="user")
-     * many user belong to many study courses
-     */
-    private $studycourse;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $userRoles;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $lectures;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $title;
-
-    public function __construct()
-    {
-        $this->lectures = array();
-        $this->userRole = array();
-        $this->studycourse = array ();
-    }
-
-    public function getRoles()
-    {
-        $userRole = $this->userRoles;
-        // we need to make sure to have at least one role
-        $userRole[] = static::USERROLE_DEFAULT;
-        return array_unique($userRole);
-    }
-=======
      * @ORM\Column(type="array")
      * @Serializer\Expose
      */
     private $roles;
 
-    private $firstname;
-
-    private $lastname;
-
-    private $studyCourses;
-
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Serializer\Expose
+     */
     private $title;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Slot", mappedBy="student")
+     * one student belong to many slots
+     */
+    private $slots;
 
     /**
-     * User constructor.
+     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="professor")
+     * one professor belong to many meetings
      */
+    private $meetings;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Studycourse", mappedBy="users")
+     * many user belong to many study courses
+     */
+    private $studycourses;
+
+
     public function __construct()
     {
         $this->roles = array();
+        $this->slots = new ArrayCollection();
+        $this->meetings = new ArrayCollection();
+        $this->studycourses = new ArrayCollection();
     }
 
->>>>>>> 73fdfb9c9c99bb11206b13bdf2447394c197b7a9
 
-    public function addRole($userRole)
+    public function getRoles()
     {
-        $userRole = strtoupper($userRole);
-        if ($userRole === static::USERROLE_DEFAULT) {
+        $roles = $this->roles;
+        // we need to make sure to have at least one role
+        $roles[] = static::ROLE_DEFAULT;
+        return array_unique($roles);
+    }
+
+
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+        if ($role === static::ROLE_DEFAULT) {
             return $this;
         }
-        if (!in_array($userRole, $this->userRoles, true)) {
-            $this->userRoles[] = $userRole;
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
         }
         return $this;
     }
@@ -151,6 +121,7 @@ class User implements UserInterface
     {
         return $this->username;
     }
+
     public function setUsername($username)
     {
         $this->username = $username;
@@ -164,15 +135,6 @@ class User implements UserInterface
         $this->userSurname = $userSurname;
     }
 
-    public function getEmail()
-    {
-        return $this->email;
-    }
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
     public function getPassword()
     {
         return $this->password;
@@ -182,23 +144,6 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-    public function getUserRole()
-    {
-        return $this->userRole;
-    }
-    public function setUserRole($userRole)
-    {
-        $this->userRole = $userRole;
-    }
-
-    public function getLecture()
-    {
-        return $this->lecture;
-    }
-    public function setLecture($lecture)
-    {
-        $this->lecture = $lecture;
-    }
 
     public function getTitle()
     {
@@ -206,17 +151,10 @@ class User implements UserInterface
     }
     public function setTitle($title)
     {
-<<<<<<< HEAD
         $this->title = $title;
-=======
-        $roles = $this->roles;
 
-        // we need to make sure to have at least one role
-        $roles[] = static::ROLE_DEFAULT;
-
-        return array_unique($roles);
->>>>>>> 73fdfb9c9c99bb11206b13bdf2447394c197b7a9
     }
+
 
     public function getSalt()
     {
@@ -227,20 +165,86 @@ class User implements UserInterface
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addRole($role)
+    public function getFirstname()
     {
-        $role = strtoupper($role);
-        if ($role === static::ROLE_DEFAULT) {
-            return $this;
-        }
+        return $this->firstname;
+    }
 
-        if (!in_array($role, $this->roles, true)) {
-            $this->roles[] = $role;
-        }
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
 
-        return $this;
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    public function getSlots()
+    {
+        return $this->slots;
+    }
+
+    public function addSlot(Slot $slot)
+    {
+        if(!$this->slots->contains($slot))
+        {
+            $this->slots->add($slot);
+        }
+    }
+
+    public function removeSlot(Slot $slot)
+    {
+        if($this->slots->contains($slot))
+        {
+            $this->slots->remove($slot);
+        }
+    }
+
+    public function getMeetings()
+    {
+        return $this->meetings;
+    }
+
+    public function addMeeting(Meeting $meeting)
+    {
+        if(!$this->meetings->contains($meeting))
+        {
+            $this->meetings->add($meeting);
+        }
+    }
+
+    public function removeMeeting(Meeting $meeting)
+    {
+        if($this->meetings->contains($meeting))
+        {
+            $this->meetings->remove($meeting);
+        }
+    }
+
+    public function getStudycourses()
+    {
+        return $this->studycourses;
+    }
+
+    public function addStudyCourse(Studycourse $studycourse)
+    {
+        if(!$this->studycourses->contains($studycourse))
+        {
+            $this->studycourses->add($studycourse);
+        }
+    }
+
+    public function removeStudyCourse(Studycourse $studycourse)
+    {
+        if($this->studycourses->contains($studycourse))
+        {
+            $this->studycourses->remove($studycourse);
+        }
     }
 }

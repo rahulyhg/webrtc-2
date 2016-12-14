@@ -21,11 +21,13 @@ class TokenControllerTest extends EnhancedWebTestCase
         $client->request('POST', '/tokens');
         $response = $client->getResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(201, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyExists(
             $response,
-            'token'
+            'user'
         );
+
+        $this->assertEquals('__token', $response->headers->getCookies()[0]->getName());
     }
 
     public function testPostCreateTokenInvalidCredentials()

@@ -126,6 +126,7 @@ class User implements UserInterface
     {
         $this->username = $username;
     }
+    /*
     public function getUserSurname()
     {
         return $this->userSurname;
@@ -134,6 +135,7 @@ class User implements UserInterface
     {
         $this->userSurname = $userSurname;
     }
+    */
 
     public function getPassword()
     {

@@ -37,7 +37,7 @@ class Slot
      * @ORM\Column(type="datetime")
      * @Serializer\Expose
      */
-    private $dte;
+    private $date;
 
     /**
      * @ORM\Column(type="string")
@@ -90,14 +90,14 @@ class Slot
         $this->time = $time;
     }
 
-    public function getDte()
+    public function getDate()
     {
-        return $this->dte;
+        return $this->date;
     }
 
-    public function setDte($dte)
+    public function setDate($date)
     {
-        $this->dte = $dte;
+        $this->date = $date;
     }
 
     public function getComment()

@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
->>>>>>> 78ebb4bc56653dde6e7327081f87e9e024adbf6b
 use JMS\Serializer\Annotation as Serializer;
 
 /**

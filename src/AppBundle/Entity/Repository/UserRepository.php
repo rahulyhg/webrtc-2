@@ -38,4 +38,14 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         return $user;
     }
+
+    public function findByRole($role)
+    {
+        $this->createQueryBuilder('u')
+            ->select('u')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%"'.$role.'"%')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -72,9 +72,9 @@ class Controller extends BaseController
         throw new ApiProblemException($apiProblem);
     }
 
-    protected function createApiResponse($data, $statusCode = 200, $cookies = [])
+    protected function createApiResponse($data, $statusCode = 200, $cookies = [], $serializationGroups = [], $format = 'json')
     {
-        $json = $this->serialize($data);
+        $json = $this->serialize($data, $serializationGroups, $format);
 
         $response = new Response($json, $statusCode, array(
             'Content-Type' => 'application/json'
@@ -91,10 +91,18 @@ class Controller extends BaseController
     // use JMS\Serializer\Annotation as Serializer;
     // above class: @Serializer\ExclusionPolicy("all")
     // above fields that should get serialized: @Serializer\Expose
-    protected function serialize($data, $format = 'json')
+    protected function serialize($data, $serializationGroups = [], $format = 'json')
     {
         $context = new SerializationContext();
         $context->setSerializeNull(true);
+
+        if(count($serializationGroups) > 0)
+        {
+            $context->setGroups($serializationGroups);
+        }else{
+            $context->setGroups(['Default']);
+        }
+
         return $this->container->get('jms_serializer')
             ->serialize($data, $format, $context);
     }

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="user")
@@ -17,6 +18,7 @@ class User implements UserInterface
     const ROLE_DEFAULT = 'ROLE_USER';
     const ROLE_STUDENT = 'ROLE_STUDENT';
     const ROLE_PROF = 'ROLE_PROF';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
 
 
     /**
@@ -31,18 +33,45 @@ class User implements UserInterface
 
      * @ORM\Column(type="string", unique=true)
      * @Serializer\Expose
+     * @Assert\NotBlank(
+     *      message="Bitte geben Sie einen Username an",
+     *      groups={"Default"}
+     * )
+     * @Assert\Regex(
+     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-]{2,100}$/",
+     *      message="Der Username entspricht nicht den Vorgaben",
+     *      groups={"Default"}
+     * )
      */
     private $username;
 
     /**
      * @ORM\Column(type="string")
      * @Serializer\Expose
+     * @Assert\NotBlank(
+     *      message="Bitte geben Sie einen Firstname an",
+     *      groups={"Default"}
+     * )
+     * @Assert\Regex(
+     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-]{2,100}$/",
+     *      message="Der Firstname entspricht nicht den Vorgaben",
+     *      groups={"Default"}
+     * )
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string")
      * @Serializer\Expose
+     * @Assert\NotBlank(
+     *      message="Bitte geben Sie einen Lastname an",
+     *      groups={"Default"}
+     * )
+     * @Assert\Regex(
+     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-]{2,100}$/",
+     *      message="Der Lastname entspricht nicht den Vorgaben",
+     *      groups={"Default"}
+     * )
      */
     private $lastname;
 
@@ -60,6 +89,11 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose
+     * @Assert\Regex(
+     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-]{2,100}$/",
+     *      message="Der Titel entspricht nicht den Vorgaben",
+     *      groups={"Default"}
+     * )
      */
     private $title;
 
@@ -110,6 +144,14 @@ class User implements UserInterface
             $this->roles[] = $role;
         }
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasRole($role)
+    {
+        return in_array(strtoupper($role), $this->getRoles(), true);
     }
 
     public function getId()

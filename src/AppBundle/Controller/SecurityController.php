@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Security("has_role('ROLE_USER')")
+    /**
+     * @Security("has_role('ROLE_USER')")
  * @author Patrick Beckedorf
  */
 class SecurityController extends Controller

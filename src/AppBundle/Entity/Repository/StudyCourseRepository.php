@@ -11,4 +11,5 @@ use AppBundle\Entity\Slot;
 class StudyCourseRepository extends EntityRepository
 {
 
+
 }

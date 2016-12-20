@@ -49,14 +49,17 @@ class EnhancedWebTestCase extends WebTestCase
     protected function createUser($username, $plainPassword = 'Test1234', $role = User::ROLE_STUDENT)
     {
         $user = new User();
+        $user->setFirstname('testperson');
+        $user->setLastname('nachname');
         $user->setUsername($username);
-        $user->setEmail($username.'@test.com');
+       // $user->setEmail($username.'@test.com');
         $user->addRole($role);
         $password = $this->getService('security.password_encoder')
             ->encodePassword($user, $plainPassword);
         $user->setPassword($password);
-
+        $user->setTitle('');
         $em = $this->getEm();
+
         $em->persist($user);
         $em->flush();
 

@@ -10,4 +10,5 @@ use AppBundle\Entity\Slot;
 class MeetingRepository extends EntityRepository
 {
 
+
 }

@@ -9,7 +9,6 @@ use AppBundle\Entity\Slot;
 
 class SlotRepository extends EntityRepository
 {
-
     public function findLastAcceptedSlotByMeeting(Meeting $meeting)
     {
         $this->createQueryBuilder('s')
@@ -22,5 +21,4 @@ class SlotRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

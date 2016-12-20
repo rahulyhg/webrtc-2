@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -49,6 +50,7 @@ class Meeting
     public function __construct()
     {
         $this->slots = new ArrayCollection();
+
     }
 
 
@@ -107,4 +109,5 @@ class Meeting
     {
         $this->professor = $professor;
     }
+
 }

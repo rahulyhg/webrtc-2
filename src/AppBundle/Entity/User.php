@@ -18,6 +18,7 @@ class User implements UserInterface
     const ROLE_STUDENT = 'ROLE_STUDENT';
     const ROLE_PROF = 'ROLE_PROF';
 
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,6 +28,7 @@ class User implements UserInterface
     private $id;
 
     /**
+
      * @ORM\Column(type="string", unique=true)
      * @Serializer\Expose
      */
@@ -124,6 +126,16 @@ class User implements UserInterface
     {
         $this->username = $username;
     }
+    /*
+    public function getUserSurname()
+    {
+        return $this->userSurname;
+    }
+    public function setUserSurname($userSurname)
+    {
+        $this->userSurname = $userSurname;
+    }
+    */
 
     public function getPassword()
     {
@@ -134,14 +146,15 @@ class User implements UserInterface
         $this->password = $password;
     }
 
+
     public function getTitle()
     {
         return $this->title;
     }
     public function setTitle($title)
     {
-
         $this->title = $title;
+
     }
 
 

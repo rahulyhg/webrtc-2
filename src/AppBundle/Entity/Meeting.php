@@ -5,10 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Table(name="meeting")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeetingRepository")
  * @Serializer\ExclusionPolicy("all")
  */
 class Meeting
@@ -17,24 +19,48 @@ class Meeting
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Serializer\Expose
+     * @Serializer\Groups({'Default'})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Expose
+     * @Serializer\Groups({'Default'})
+     *
+     * @Assert\DateTime(
+     *      format="d.m.Y",
+     *      message="Europäisches Datum notwendig (d.m.Y)",
+     *      groups={"Default"}
+     * )
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Expose
+     * @Serializer\Groups({'Default'})
+     *
+     * @Assert\DateTime(
+     *      format="d.m.Y",
+     *      message="Europäisches Datum notwendig (d.m.Y)",
+     *      groups={"Default"}
+     * )
      */
     private $endDate;
 
     /**
+     * @ORM\Column(type="string")
+     * @Serializer\Expose
+     * @Assert\Choice(
+     *      choices = {"OPEN", "ACCEPTED", "DECLINED", "CANCELED"},
+     *      groups={"Default"},
+     *      message="Invalider Status"
+     * )
+     */
+    private $status;
+
+    /**
      * @ORM\OneToMany(targetEntity="Slot", mappedBy="meeting")
+     * @Serializer\Groups({'prof'})
      * one meeting belong to many slots
      */
     private $slots;
@@ -106,5 +132,15 @@ class Meeting
     public function setProfessor($professor)
     {
         $this->professor = $professor;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 }

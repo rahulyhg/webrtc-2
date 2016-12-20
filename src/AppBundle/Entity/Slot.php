@@ -4,16 +4,22 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="slot")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SlotRepository")
  * @Serializer\ExclusionPolicy("all")
  */
 
 class Slot
 {
-      /**
+    const STATUS_OPEN = 'OPEN';
+    const STATUS_ACCEPTED = 'ACCEPTED';
+    const STATUS_DECLINED = 'DECLINED';
+    const STATUS_CANCELED = 'CANCELED';
+
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -24,24 +30,52 @@ class Slot
     /**
      * @ORM\Column(type="string")
      * @Serializer\Expose
+     * @Assert\NotBlank(
+     *      message="Bitte geben Sie einen Betreff an",
+     *      groups={"Default"}
+     * )
+     * @Assert\Regex(
+     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-]{2,100}$/",
+     *      message="Der Betreff entspricht nicht den Vorgaben",
+     *      groups={"Default"}
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
      * @Serializer\Expose
+     * @Assert\NotBlank(
+     *      message="Bitte geben Sie eine Dauer an",
+     *      groups={"Default"}
+     * )
+     * @Assert\Range(
+     *      min = 5,
+     *      max = 180,
+     *      minMessage = "Slot muss mind. {{ limit }} Minuten gehen",
+     *      maxMessage = "Slot darf max. {{ limit }} Minuten gehen"
+     * )
      */
-    private $time;
+    private $duration;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(
+     *      format="d.m.Y",
+     *      message="Europäisches Datum notwendig (d.m.Y)",
+     *      groups={"Default"}
+     * )
      * @Serializer\Expose
      */
-    private $dte;
+    private $date;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=10000)
      * @Serializer\Expose
+     * @Assert\Range(
+     *      max = 10000,
+     *      maxMessage = "Kommentar darf max. {{ limit }} Zeichen haben"
+     * )
      */
     private $comment;
 
@@ -79,24 +113,24 @@ class Slot
         $this->name = $name;
     }
 
-    public function getTime()
+    public function getDuration()
     {
-        return $this->time;
+        return $this->duration;
     }
 
-    public function setTime($time)
+    public function setDuration($duration)
     {
-        $this->time = $time;
+        $this->duration = $duration;
     }
 
-    public function getDte()
+    public function getDate()
     {
-        return $this->dte;
+        return $this->date;
     }
 
-    public function setDte($dte)
+    public function setDate($date)
     {
-        $this->dte = $dte;
+        $this->date = $date;
     }
 
     public function getComment()

@@ -67,9 +67,7 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
             throw new CustomUserMessageAuthenticationException('Token invalide');
         }
 
-        $user = new User();
-        $user->setUsername($data['username']);
-        return $user;
+        return $userProvider->loadUserByUsername($data['username']);
     }
 
     public function checkCredentials($credentials, UserInterface $user)

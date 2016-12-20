@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class EnhancedWebTestCase extends WebTestCase
 {
 
-    public function setUp()
+    protected function setUp()
     {
         self::bootKernel();
     }

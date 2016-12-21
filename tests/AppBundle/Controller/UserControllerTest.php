@@ -28,10 +28,10 @@ class UserControllerTest extends EnhancedWebTestCase
     {
         //
 
-        $this->createUser('test3', 'Test1234', User::ROLE_PROF);
+        $this->createUser('test7', 'Test1234', User::ROLE_PROF);
         $client = static::createClient();
 
-        $token = $this->getAuthorizedToken('test3');
+        $token = $this->getAuthorizedToken('test7');
         $cookie = new Cookie('__token', $token);
         $client->getCookieJar()->set($cookie);
 

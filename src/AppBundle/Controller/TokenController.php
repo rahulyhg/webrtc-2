@@ -30,7 +30,7 @@ class TokenController extends Controller
         if(!$isValid) throw new BadCredentialsException('Invalide Eingabe');
 
         $token = $this->get('lexik_jwt_authentication.encoder')
-            ->encode(['exp' => time() + 86400, 'username' => $user->getUsername(), 'id' => $user->getId()]);
+            ->encode(['exp' => time() + 3600 * 24 * 7, 'username' => $user->getUsername(), 'id' => $user->getId()]);
 
        // $cookie = new Cookie('__token', $token, time() + 3600 * 24 * 7, '/', '.chor-am-killesberg.de');
         $cookie = new Cookie('__token', $token, time() + 3600 * 24 * 7, '/');
@@ -41,7 +41,6 @@ class TokenController extends Controller
     /**
      * @Route("/tokens")
      * @Method("DELETE")
-     * @Security("has_role('ROLE_USER')")
      */
     public function deleteTokenAction(Request $request)
     {

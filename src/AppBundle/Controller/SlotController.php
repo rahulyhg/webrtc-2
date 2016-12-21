@@ -64,9 +64,9 @@ class SlotController extends Controller
             $em->persist($slot);
             $em->flush();
         }else{
-            return $this->createApiResponse(['form_error' => $form->getErrors(true)]);
+            return $this->createApiResponse(['success' => false, 'form_error' => $form->getErrors(true)]);
         }
-        return $this->createApiResponse(['valid' => true, 'status' => 'Slot created']);
+        return $this->createApiResponse(['success' => true, 'entity' => $slot->getId(), 'slots' => $this->getUser()->getSlots()], 201);
     }
 
 
@@ -74,15 +74,15 @@ class SlotController extends Controller
     /**
      * @Route("/meetings/{meetingid}/slots/{slotid}", name="patch_meeting_slot")
      * @Security("has_role('ROLE_PROF')")
-     * @ParamConverter("meeting", options={"mapping": {"id": "meetingid"}})
-     * @ParamConverter("slot", options={"mapping": {"id": "slotid"}})
+     * @ParamConverter("meeting", options={"mapping": {"meetingid": "id"}})
+     * @ParamConverter("slot", options={"mapping": {"slotid": "id"}})
      * @Method("PATCH")
      */
     public function patchMeetingSlotAction(Request $request, Meeting $meeting, Slot $slot)
     {
         if(!$slot || !$meeting || $slot->getMeeting() != $meeting || ($meeting->getProfessor() != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
 
-        $form = $this->createForm(SlotEditType::class, $slot);
+        $form = $this->createForm(SlotEditType::class, $slot, ['method' => 'PATCH']);
         $form->handleRequest($request);
 
         if($form->isValid())
@@ -106,8 +106,8 @@ class SlotController extends Controller
             $em->persist($slot);
             $em->flush();
         }else{
-            return $this->createApiResponse(['form_error' => $form->getErrors(true)]);
+            return $this->createApiResponse(['success' => false, 'form_error' => $form->getErrors(true)]);
         }
-        return $this->createApiResponse(['valid' => true, 'status' => 'Slot updated', 'entity' => $slot->getId()]);
+        return $this->createApiResponse(['success' => true, 'entity' => $slot]);
     }
 }

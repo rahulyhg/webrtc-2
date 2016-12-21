@@ -67,6 +67,7 @@ class Meeting
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="meetings")
+     * @Serializer\Groups({"prof"})
      * Many meetings belong to one professor
      */
     private $professor;
@@ -75,7 +76,6 @@ class Meeting
     public function __construct()
     {
         $this->slots = new ArrayCollection();
-
     }
 
 

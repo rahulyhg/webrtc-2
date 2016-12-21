@@ -62,7 +62,7 @@ class MeetingCreateType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'app_meeting_edit';
+        return 'app_meeting_create';
     }
 
 }

@@ -111,6 +111,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="Studycourse", mappedBy="users")
+     * @Serializer\Expose
      * many user belong to many study courses
      */
     private $studycourses;

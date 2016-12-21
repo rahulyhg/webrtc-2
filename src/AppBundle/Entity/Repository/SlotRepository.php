@@ -14,10 +14,11 @@ class SlotRepository extends EntityRepository
         $this->createQueryBuilder('s')
             ->select('s')
             ->where('s.meeting = :meeting')
-            ->andWhere('s.status = ACCEPTED')
-            ->orderBy('s.startDate DESC')
+            ->andWhere('s.status = :status')
+            ->orderBy('s.date', 'DESC')
             ->setMaxResults(1)
             ->setParameter('meeting', $meeting)
+            ->setParameter('status', 'ACCEPTED')
             ->getQuery()
             ->getOneOrNullResult();
     }

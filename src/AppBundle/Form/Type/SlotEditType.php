@@ -26,7 +26,7 @@ class SlotEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('status', ChoiceType::class, array(
+                ->add('status', ChoiceType::class, array(
                 'placeholder' => '',
                 'empty_data'  => null,
                 'invalid_message' => 'Invalider Status',

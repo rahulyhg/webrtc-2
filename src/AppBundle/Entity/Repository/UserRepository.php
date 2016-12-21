@@ -39,13 +39,19 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         return $user;
     }
 
+    /**
+     * @param string $role
+     *
+     * @return array
+     */
     public function findByRole($role)
     {
-        $this->createQueryBuilder('u')
-            ->select('u')
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('u')
+            ->from('AppBundle:User', 'u')
             ->where('u.roles LIKE :roles')
-            ->setParameter('roles', '%"'.$role.'"%')
-            ->getQuery()
-            ->getResult();
+            ->setParameter('roles', '%"'.$role.'"%');
+
+        return $qb->getQuery()->getResult();
     }
 }

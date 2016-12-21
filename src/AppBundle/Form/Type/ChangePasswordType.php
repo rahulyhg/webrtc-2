@@ -10,14 +10,12 @@ namespace AppBundle\Form\Type;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Tests\Extension\Core\Type\RepeatedTypeTest;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
-/**
- * @Security("has_role('ROLE_STUDENT')")
- */
+
 class ChangePasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -34,7 +32,7 @@ class ChangePasswordType extends AbstractType
                 'constraints' => array($userPassword),
                 'label' => false
             ))
-            ->add('newPassword', RepeatedTypeTest::class, array(
+            ->add('newPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'first_options' => array(
@@ -56,7 +54,6 @@ class ChangePasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'method' => 'PATCH',
             'attr' => array(
                 'novalidate'=>'novalidate'
             ),

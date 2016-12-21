@@ -78,22 +78,23 @@ class MeetingController extends Controller
             $em->persist($meeting);
             $em->flush();
         }else{
-            return $this->createApiResponse(['form_error' => $form->getErrors(true)]);
+            return $this->createApiResponse(['success' => false, 'form_error' => $form->getErrors(true)]);
         }
-        return $this->createApiResponse(['valid' => true, 'status' => 'Meeting created']);
+        return $this->createApiResponse(['success' => true, 'entity' => $meeting], 201);
     }
 
     /**
      * @Route("/{meetingid}", name="patch_user_meeting")
      * @Security("has_role('ROLE_PROF')")
-     * @ParamConverter("meeting", options={"mapping": {"id": "meetingid"}})
+     * @ParamConverter("user", options={"mapping": {"id": "id"}})
+     * @ParamConverter("meeting", options={"mapping": {"meetingid": "id"}})
      * @Method("PATCH")
      */
     public function patchMeetingAction(Request $request, User $user, Meeting $meeting)
     {
         if(!$user || !$meeting || $meeting->getProfessor() != $user || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
 
-        $form = $this->createForm(MeetingEditType::class, $meeting);
+        $form = $this->createForm(MeetingEditType::class, $meeting, ['method' => 'PATCH']);
         $form->handleRequest($request);
 
         if($form->isValid())
@@ -109,8 +110,8 @@ class MeetingController extends Controller
             $em->persist($meeting);
             $em->flush();
         }else{
-            return $this->createApiResponse(['form_error' => $form->getErrors(true)]);
+            return $this->createApiResponse(['success' => false, 'form_error' => $form->getErrors(true)]);
         }
-        return $this->createApiResponse(['valid' => true, 'status' => 'Meeting updated', 'entity' => $meeting->getId()]);
+        return $this->createApiResponse(['success' => true, 'entity' => $meeting]);
     }
 }

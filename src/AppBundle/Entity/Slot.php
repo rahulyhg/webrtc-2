@@ -59,7 +59,7 @@ class Slot
     private $duration;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime(
      *      format="d.m.Y",
      *      message="Europäisches Datum notwendig (d.m.Y)",
@@ -70,9 +70,9 @@ class Slot
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=10000)
+     * @ORM\Column(type="string", length=10000, nullable=true)
      * @Serializer\Expose
-     * @Assert\Range(
+     * @Assert\Length(
      *      max = 10000,
      *      maxMessage = "Kommentar darf max. {{ limit }} Zeichen haben"
      * )

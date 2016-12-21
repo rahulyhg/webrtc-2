@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArrayInput;
 
+
 $kernel = new AppKernel('test', true); // create a "test" kernel
 $kernel->boot();
 $application = new Application($kernel);
@@ -228,9 +229,3 @@ for($i=1; $i<=15; $i++) {
     }
 
 }
-
-
-
-
-
-

@@ -15,7 +15,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -49,8 +51,9 @@ class UserController extends Controller
         if($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN)) throw $this->createNotFoundException();
 
         // Check old one
-        $form = $this->createForm(ChangePasswordType::class);
+        $form = $this->createForm(ChangePasswordType::class, null, ['method' => 'PATCH']);
         $form->handleRequest($request);
+
         if($form->isValid())
         {
             $em = $this->get('doctrine.orm.entity_manager');
@@ -60,7 +63,8 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
         }else{
-            return $this->createApiResponse(['form_error' => $form->getErrors(true, false)]);
+            return $this->createApiResponse(['success' => false, 'form_error' => $form->getErrors(true)]);
         }
+        return $this->createApiResponse(['success' => true, 'entity' => $user]);
     }
 }

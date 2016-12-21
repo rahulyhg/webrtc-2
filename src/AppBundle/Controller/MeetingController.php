@@ -30,6 +30,7 @@ class MeetingController extends Controller
     /**
      * @Route("/professor", name="get_user_meetings_professor")
      * @ParamConverter("user", options={"mapping": {"id": "id"}})
+     * @Security("has_role('ROLE_PROF')")
      * @Method("GET")
      */
     public function getUserMeetingsProfessorAction(User $user)
@@ -43,11 +44,12 @@ class MeetingController extends Controller
     /**
      * @Route("/student", name="get_user_meetings_student")
      * @ParamConverter("user", options={"mapping": {"id": "id"}})
+     * @Security("has_role('ROLE_STUDENT')")
      * @Method("GET")
      */
     public function getUserMeetingsStudentAction(User $user)
     {
-        if(!$user || !$user->hasRole(User::ROLE_STUDENT) || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
+        if(!$user || !$user->hasRole(User::ROLE_PROF)) throw $this->createNotFoundException();
 
         $meetings = $user->getMeetings();
         return $this->createApiResponse($meetings);

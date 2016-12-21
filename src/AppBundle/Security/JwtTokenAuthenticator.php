@@ -49,6 +49,9 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
             'Authorization'
         );
         $token = $extractor->extract($request);*/
+        if ($request->getPathInfo() === '/tokens' && $request->isMethod('DELETE')) {
+            return;
+        }
 
         //var_dump($request->headers);die;
         $token = $request->cookies->get('__token');

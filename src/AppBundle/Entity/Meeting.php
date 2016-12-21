@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="meeting")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MeetingRepository")
- * @Serializer\ExclusionPolicy("all")
  */
 class Meeting
 {
@@ -20,13 +19,13 @@ class Meeting
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Serializer\Groups({'Default'})
+     * @Serializer\Groups({"Default"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Groups({'Default'})
+     * @Serializer\Groups({"Default"})
      *
      * @Assert\DateTime(
      *      format="d.m.Y",
@@ -38,7 +37,7 @@ class Meeting
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Groups({'Default'})
+     * @Serializer\Groups({"Default"})
      *
      * @Assert\DateTime(
      *      format="d.m.Y",
@@ -49,8 +48,8 @@ class Meeting
     private $endDate;
 
     /**
-     * @ORM\Column(type="string")
-     * @Serializer\Expose
+     * @ORM\Column(type="string", nullable=true)
+     * @Serializer\Groups({"Default"})
      * @Assert\Choice(
      *      choices = {"OPEN", "ACCEPTED", "DECLINED", "CANCELED"},
      *      groups={"Default"},
@@ -61,7 +60,7 @@ class Meeting
 
     /**
      * @ORM\OneToMany(targetEntity="Slot", mappedBy="meeting")
-     * @Serializer\Groups({'prof'})
+     * @Serializer\Groups({"prof"})
      * one meeting belong to many slots
      */
     private $slots;

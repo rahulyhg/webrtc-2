@@ -105,7 +105,10 @@ for($i=0; $i<=100; $i++)
     $user->setFirstname('Studentvorname' . $i);
     $user->addRole(AppBundle\Entity\User::ROLE_STUDENT);
     $user->setLastname('Studentnachname' . $i);
-    $user->setPassword('Studentpassword' . $i);
+
+    $password = $kernel->getContainer()->get('security.password_encoder')
+        ->encodePassword($user, 'Test1234');
+    $user->setPassword($password);
     $user->setUsername('studentmail' . $i . "@hft-stuttgart.de");
     $user->setTitle('');
 
@@ -131,14 +134,16 @@ for($i=0; $i<=100; $i++)
 }
 
 // add user (prof)
-
 for($i=0; $i<=100; $i++)
 {
     $user = new AppBundle\Entity\User();
     $user->setFirstname('Professorvorname' . $i);
     $user->addRole(AppBundle\Entity\User::ROLE_PROF);
     $user->setLastname('Professornachname' . $i);
-    $user->setPassword('Professorpassword' . $i);
+
+    $password = $kernel->getContainer()->get('security.password_encoder')
+        ->encodePassword($user, 'Test1234');
+    $user->setPassword($password);
     $user->setUsername('professormail' . $i . "@hft-stuttgart.de");
     $user->setTitle('Prof');
 
@@ -169,8 +174,14 @@ for($i=1; $i<=10; $i++) {
         ->findOneBy(['username' => 'professormail' . $i . '@hft-stuttgart.de']);
     for($j=1; $j<=10; $j++) {
         $meeting01 = new AppBundle\Entity\Meeting();
-        $meeting01->setStartDate($date = DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. $firstDate .' 10:00:00'));
-        $meeting01->setEndDate($date = DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . $firstDate .' 11:30:00'));
+        $meeting01->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. $firstDate .' 10:00:00'));
+        $meeting01->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . $firstDate .' 11:30:00'));
+
+        if($j%2 == 0) {
+            $meeting01->setStatus(\AppBundle\Entity\Slot::STATUS_OPEN);
+        }else{
+            $meeting01->setStatus(\AppBundle\Entity\Slot::STATUS_CANCELED);
+        }
 
         $meeting01->setProfessor($user15);
         $em->persist($meeting01);
@@ -199,10 +210,15 @@ for($i=1; $i<=15; $i++) {
         $slot01->setMeeting($getMeetingFromId);
         $slot01->setStudent($user16);
         $slot01->setName('Bachelorthesis');
-        $slot01->setTime(30);
+        $slot01->setDuration(30);
         $slot01->setDate($date = $getMeetingFromId->getStartDate());
         $slot01->setComment('Student:' . $studentNr);
-        $slot01->setStatus('requested');
+
+        if($j%2 == 0) {
+            $slot01->setStatus(\AppBundle\Entity\Slot::STATUS_OPEN);
+        }else{
+            $slot01->setStatus(\AppBundle\Entity\Slot::STATUS_CANCELED);
+        }
 
         $em->persist($slot01);
         $em->flush();

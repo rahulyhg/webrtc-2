@@ -35,7 +35,8 @@ class SlotController extends Controller
      */
     public function getUserSlotsAction(User $user)
     {
-        if (!$user || !$user->hasRole(User::ROLE_STUDENT) || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
+        if (!$user) throw $this->createNotFoundException();
+        if(!$user->hasRole(User::ROLE_STUDENT) || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createAccessDeniedException();
 
         return $this->createApiResponse($user->getSlots());
     }
@@ -80,7 +81,8 @@ class SlotController extends Controller
      */
     public function patchMeetingSlotAction(Request $request, Meeting $meeting, Slot $slot)
     {
-        if(!$slot || !$meeting || $slot->getMeeting() != $meeting || ($meeting->getProfessor() != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
+        if(!$slot || !$meeting || $slot->getMeeting() != $meeting) throw $this->createNotFoundException();
+        if(($meeting->getProfessor() != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createAccessDeniedException();
 
         $form = $this->createForm(SlotEditType::class, $slot, ['method' => 'PATCH']);
         $form->handleRequest($request);

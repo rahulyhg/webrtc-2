@@ -47,8 +47,9 @@ class UserController extends Controller
      */
     public function patchPasswordAction(Request $request, User $user)
     {
+        if(!$user) throw $this->createNotFoundException();
         /** @var User $user */
-        if($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN)) throw $this->createNotFoundException();
+        if($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN)) throw $this->createAccessDeniedException();
 
         // Check old one
         $form = $this->createForm(ChangePasswordType::class, null, ['method' => 'PATCH']);

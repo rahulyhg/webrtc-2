@@ -35,7 +35,8 @@ class MeetingController extends Controller
      */
     public function getUserMeetingsProfessorAction(User $user)
     {
-        if (!$user || !$user->hasRole(User::ROLE_PROF) || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
+        if (!$user) throw $this->createNotFoundException();
+        if(!$user->hasRole(User::ROLE_PROF) || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createAccessDeniedException();
 
         $meetings = $user->getMeetings();
         return $this->createApiResponse($meetings, 200, [], ['Default', 'prof']);
@@ -49,7 +50,8 @@ class MeetingController extends Controller
      */
     public function getUserMeetingsStudentAction(User $user)
     {
-        if(!$user || !$user->hasRole(User::ROLE_PROF)) throw $this->createNotFoundException();
+        if(!$user) throw $this->createNotFoundException();
+        if(!$user->hasRole(User::ROLE_STUDENT)) throw $this->createAccessDeniedException();
 
         $meetings = $user->getMeetings();
         return $this->createApiResponse($meetings);
@@ -63,7 +65,8 @@ class MeetingController extends Controller
      */
     public function postMeetingAction(Request $request, User $user)
     {
-        if(!$user || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
+        if(!$user) throw $this->createNotFoundException();
+        if(($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createAccessDeniedException();
 
         $meeting = new Meeting();
         $form = $this->createForm(MeetingCreateType::class, $meeting);
@@ -92,7 +95,8 @@ class MeetingController extends Controller
      */
     public function patchMeetingAction(Request $request, User $user, Meeting $meeting)
     {
-        if(!$user || !$meeting || $meeting->getProfessor() != $user || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createNotFoundException();
+        if(!$user || !$meeting || $meeting->getProfessor() != $user) throw $this->createNotFoundException();
+        if(($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createAccessDeniedException();
 
         $form = $this->createForm(MeetingEditType::class, $meeting, ['method' => 'PATCH']);
         $form->handleRequest($request);

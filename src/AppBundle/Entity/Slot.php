@@ -61,8 +61,8 @@ class Slot
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime(
-     *      format="d.m.Y",
-     *      message="Europäisches Datum notwendig (d.m.Y)",
+     *      format="dd.MM.y HH:mm",
+     *      message="Europäisches Datum notwendig (dd.MM.y HH:mm)",
      *      groups={"Default"}
      * )
      * @Serializer\Expose
@@ -87,12 +87,14 @@ class Slot
 
     /**
      * @ORM\ManyToOne(targetEntity="Meeting", inversedBy="slots")
+     * @Serializer\Expose
      * many slots belong to one meeting
      */
     private $meeting;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="slots")
+     * @Serializer\Expose
      * many slots belong to one student
      */
     private $student;

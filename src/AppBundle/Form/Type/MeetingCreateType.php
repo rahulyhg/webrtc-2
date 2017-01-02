@@ -30,8 +30,8 @@ class MeetingCreateType extends AbstractType
             ->add('startDate', DateTimeType::class, array(
                 'widget' => 'single_text',
                 // Format hier für Internationalisierung nachher
-                'format' => 'dd.MM.yyyy',
-                'invalid_message' => 'Europäisches Datum notwendig (d.m.Y)',
+                'format' => 'dd.MM.y HH:mm',
+                'invalid_message' => 'Europäisches Datum notwendig (dd.MM.y HH:mm)',
                 'attr' => array(
                     'class' => 'input-no-border editable',
                     'disabled' => true
@@ -40,8 +40,8 @@ class MeetingCreateType extends AbstractType
             ->add('endDate', DateTimeType::class, array(
                 'widget' => 'single_text',
                 // Format hier für Internationalisierung nachher
-                'format' => 'dd.MM.yyyy',
-                'invalid_message' => 'Europäisches Datum notwendig (d.m.Y)',
+                'format' => 'dd.MM.y HH:mm',
+                'invalid_message' => 'Europäisches Datum notwendig (dd.MM.y HH:mm)',
                 'attr' => array(
                     'class' => 'input-no-border editable',
                     'disabled' => true

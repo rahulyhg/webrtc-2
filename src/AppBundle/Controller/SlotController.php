@@ -14,6 +14,7 @@ use AppBundle\Entity\Slot;
 use AppBundle\Entity\User;
 use AppBundle\Form\Type\SlotCreateType;
 use AppBundle\Form\Type\SlotEditType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -38,7 +39,7 @@ class SlotController extends Controller
         if (!$user) throw $this->createNotFoundException();
         if(!$user->hasRole(User::ROLE_STUDENT) || ($user != $this->getUser() && !$this->getUser()->hasRole(User::ROLE_ADMIN))) throw $this->createAccessDeniedException();
 
-        return $this->createApiResponse($user->getSlots());
+        return $this->createApiResponse($user->getSlots(), 200, [], ['Default', 'slot']);
     }
 
     /**

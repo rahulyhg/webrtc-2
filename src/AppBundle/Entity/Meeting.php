@@ -28,8 +28,8 @@ class Meeting
      * @Serializer\Groups({"Default"})
      *
      * @Assert\DateTime(
-     *      format="d.m.Y",
-     *      message="Europäisches Datum notwendig (d.m.Y)",
+     *      format="dd.MM.y HH:mm",
+     *      message="Europäisches Datum notwendig (dd.MM.y HH:mm)",
      *      groups={"Default"}
      * )
      */
@@ -40,8 +40,8 @@ class Meeting
      * @Serializer\Groups({"Default"})
      *
      * @Assert\DateTime(
-     *      format="d.m.Y",
-     *      message="Europäisches Datum notwendig (d.m.Y)",
+     *      format="dd.MM.y HH:mm",
+     *      message="Europäisches Datum notwendig (dd.MM.y HH:mm)",
      *      groups={"Default"}
      * )
      */
@@ -67,7 +67,7 @@ class Meeting
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="meetings")
-     * @Serializer\Groups({"prof"})
+     * @Serializer\Groups({"prof", "slot"})
      * Many meetings belong to one professor
      */
     private $professor;

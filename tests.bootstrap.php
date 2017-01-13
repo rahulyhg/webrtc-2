@@ -227,5 +227,22 @@ for($i=1; $i<=15; $i++) {
         $studentNr = $studentNr + 1;
 
     }
-
 }
+
+// Update slot for frontend
+$student = $em->getRepository('AppBundle:User')
+    ->findOneBy(['username' => 'studentmail1@hft-stuttgart.de']);
+
+/** @var \AppBundle\Entity\Slot $slot1 */
+$slot1 = $em->getRepository('AppBundle:Meeting')
+    ->findOneBy(['id' => 10]);
+$slot1->setStudent($student);
+$em->persist($slot1);
+
+/** @var \AppBundle\Entity\Slot $slot2 */
+$slot2 = $em->getRepository('AppBundle:Meeting')
+    ->findOneBy(['id' => 11]);
+$slot2->setStudent($student);
+$em->persist($slot2);
+
+$em->flush();

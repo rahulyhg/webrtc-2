@@ -7,11 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
  * @Serializer\ExclusionPolicy("all")
+ * @UniqueEntity("username", message="Username bereits vergeben", groups={"Create"})
  */
 class User implements UserInterface
 {

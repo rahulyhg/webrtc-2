@@ -51,7 +51,7 @@ class MeetingController extends Controller
     public function getUserMeetingsStudentAction(User $user)
     {
         if(!$user) throw $this->createNotFoundException();
-        if(!$user->hasRole(User::ROLE_STUDENT)) throw $this->createAccessDeniedException();
+        if(!$user->hasRole(User::ROLE_PROF)) throw $this->createAccessDeniedException();
 
         $meetings = $user->getMeetings();
         return $this->createApiResponse($meetings);

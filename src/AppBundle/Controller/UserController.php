@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\Type\ChangePasswordType;
+use AppBundle\Form\Type\UserCreateType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,7 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/users")
- * @Security("has_role('ROLE_USER')")
  */
 class UserController extends Controller
 {
@@ -37,6 +37,31 @@ class UserController extends Controller
             ->findByRole(User::ROLE_PROF);
 
         return $this->createApiResponse($profs);
+    }
+
+
+    /**
+     * @Route("", name="post_user")
+     * @Method("POST")
+     */
+    public function postAction(Request $request)
+    {
+        $user = new User();
+        $form = $this->createForm(UserCreateType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isValid())
+        {
+            $em = $this->get('doctrine.orm.entity_manager');
+            $password = $this->get('security.password_encoder')
+                ->encodePassword($user, $form["newPassword"]->getData());
+            $user->setPassword($password);
+            $em->persist($user);
+            $em->flush();
+        }else{
+            return $this->createApiResponse(['success' => false, 'form_error' => $form->getErrors(true)]);
+        }
+        return $this->createApiResponse(['success' => true, 'entity' => $user]);
     }
 
     /**

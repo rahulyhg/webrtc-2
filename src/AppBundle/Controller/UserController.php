@@ -42,6 +42,7 @@ class UserController extends Controller
 
     /**
      * @Route("", name="post_user")
+     * @Security("!has_role('ROLE_USER')")
      * @Method("POST")
      */
     public function postAction(Request $request)
@@ -56,6 +57,7 @@ class UserController extends Controller
             $password = $this->get('security.password_encoder')
                 ->encodePassword($user, $form["newPassword"]->getData());
             $user->setPassword($password);
+            $user->addRole(User::ROLE_STUDENT);
             $em->persist($user);
             $em->flush();
         }else{

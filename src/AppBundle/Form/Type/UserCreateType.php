@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UserCreateType extends AbstractType
 {
@@ -38,8 +40,22 @@ class UserCreateType extends AbstractType
                 ),
                 'label' => false
             ))
+            ->add('title', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Titel'
+                ),
+                'label' => false
+            ))
             ->add('newPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
+                'constraints' => array(
+                    new NotBlank(array('message' => "Bitte geben Sie ein Passwort an")),
+                    new Regex(array(
+                            'pattern' => "/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,1024}$/",
+                            'message' => "Das Passwort entspricht nicht den Vorgaben",
+                        )
+                    )
+                ),
                 'mapped' => false,
                 'first_options' => array(
                     'attr' => array(

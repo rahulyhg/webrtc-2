@@ -92,7 +92,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose
      * @Assert\Regex(
-     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-]{2,100}$/",
+     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-.]{2,100}$/",
      *      message="Der Titel entspricht nicht den Vorgaben",
      *      groups={"Default"}
      * )

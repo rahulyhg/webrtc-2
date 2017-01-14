@@ -35,7 +35,7 @@ class Slot
      *      groups={"Default"}
      * )
      * @Assert\Regex(
-     *      pattern="/^(?=(?:.*?[a-zA-Z]){2})[a-zA-Z'\s-]{2,100}$/",
+     *      pattern="/^(?=(?:.*?[\u00C0-\u017Fa-zA-Z0-9]){2})[0-9\u00C0-\u017Fa-zA-Z'\s-]{2,100}$/",
      *      message="Der Betreff entspricht nicht den Vorgaben",
      *      groups={"Default"}
      * )

@@ -40,7 +40,7 @@ class User implements UserInterface
      *      groups={"Default"}
      * )
      * @Assert\Regex(
-     *      pattern="/^(?=(?:.*?[\u00C0-\u017Fa-zA-Z0-9]){2})[0-9\u00C0-\u017Fa-zA-Z'\s-@.]{2,100}$/",
+     *      pattern="/^(?=(?:.*?[äÄöÖüÜßa-zA-Z0-9]){2})[0-9äÄöÖüÜßa-zA-Z'\s-@.]{2,100}$/",
      *      message="Der Username entspricht nicht den Vorgaben",
      *      groups={"Default"}
      * )
@@ -55,7 +55,7 @@ class User implements UserInterface
      *      groups={"Default"}
      * )
      * @Assert\Regex(
-     *      pattern="/^(?=(?:.*?[\u00C0-\u017Fa-zA-Z]){2})[\u00C0-\u017Fa-zA-Z'\s-]{2,100}$/",
+     *      pattern="/^(?=(?:.*?[äÄöÖüÜßa-zA-Z]){2})[äÄöÖüÜßa-zA-Z'\s-]{2,100}$/",
      *      message="Der Firstname entspricht nicht den Vorgaben",
      *      groups={"Default"}
      * )
@@ -70,7 +70,7 @@ class User implements UserInterface
      *      groups={"Default"}
      * )
      * @Assert\Regex(
-     *      pattern="/^(?=(?:.*?[\u00C0-\u017Fa-zA-Z]){2})[\u00C0-\u017Fa-zA-Z'\s-]{2,100}$/",
+     *      pattern="/^(?=(?:.*?[äÄöÖüÜßa-zA-Z]){2})[äÄöÖüÜßa-zA-Z'\s-]{2,100}$/",
      *      message="Der Lastname entspricht nicht den Vorgaben",
      *      groups={"Default"}
      * )
@@ -92,7 +92,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Expose
      * @Assert\Regex(
-     *      pattern="/^(?=(?:.*?[\u00C0-\u017Fa-zA-Z]){2})[\u00C0-\u017Fa-zA-Z'\s-.]{2,100}$/",
+     *      pattern="/^(?=(?:.*?[äÄöÖüÜßa-zA-Z]){2})[äÄöÖüÜßa-zA-Z'\s-.]{2,100}$/",
      *      message="Der Titel entspricht nicht den Vorgaben",
      *      groups={"Default"}
      * )

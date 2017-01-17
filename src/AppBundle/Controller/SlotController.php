@@ -50,7 +50,7 @@ class SlotController extends Controller
      */
     public function postMeetingSlotsAction(Request $request, Meeting $meeting)
     {
-        if(!$meeting || $meeting->getStatus() !== Slot::STATUS_OPEN) throw $this->createNotFoundException();
+        if(!$meeting || $meeting->getStatus() !== Slot::STATUS_ACCEPTED) throw $this->createNotFoundException();
 
         $slot = new Slot();
         $form = $this->createForm(SlotCreateType::class, $slot);
@@ -68,7 +68,7 @@ class SlotController extends Controller
         }else{
             return $this->createApiResponse(['success' => false, 'form_error' => $form->getErrors(true)]);
         }
-        return $this->createApiResponse(['success' => true, 'entity' => $slot->getId(), 'slots' => $this->getUser()->getSlots()], 201);
+        return $this->createApiResponse(['success' => true, 'entity' => $slot->getId(), 'slots' => $this->getUser()->getSlots()], 201, [], ['Default', 'slot']);
     }
 
 
@@ -92,7 +92,6 @@ class SlotController extends Controller
         {
             /** @var EntityManagerInterface $em */
             $em = $this->get('doctrine.orm.entity_manager');
-
             $startDate = $meeting->getStartDate();
 
             // set start and endpoint

@@ -32,12 +32,6 @@ $db_create = new ArrayInput(array(
 $application->run($db_create, new ConsoleOutput());
 
 
-
-
-/* add testdata / fixtures here */
-
-$em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-
 // add studycourses
 $studycourse1 = new AppBundle\Entity\Studycourse();
 $studycourse1->setName("Architektur");
@@ -98,9 +92,197 @@ $em->persist($studycourse14);
 
 $em->flush();
 
+// add real data
+$em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+
+
+/* add testdata / fixtures here */
+
+/* User */
+// User Flo
+$user1 = new AppBundle\Entity\User();
+$user1->setFirstname('Florian');
+$user1->setLastname('Mößle');
+$user1->addRole(AppBundle\Entity\User::ROLE_STUDENT);
+$password = $kernel->getContainer()->get('security.password_encoder')
+    ->encodePassword($user1, 'Test1234');
+$user1->setPassword($password);
+$user1->setUsername('41mofl1bwi');
+
+$em->persist($user1);
+
+// User Patrick
+$user2 = new AppBundle\Entity\User();
+$user2->setFirstname('Patrick');
+$user2->setLastname('Beckedorf');
+$user2->addRole(AppBundle\Entity\User::ROLE_STUDENT);
+$password = $kernel->getContainer()->get('security.password_encoder')
+    ->encodePassword($user2, 'Test1234');
+$user2->setPassword($password);
+$user2->setUsername('41bepa1bwi');
+
+$em->persist($user2);
+
+// User Marvin
+$user3 = new AppBundle\Entity\User();
+$user3->setFirstname('Marvin');
+$user3->setLastname('Wiest');
+$user3->addRole(AppBundle\Entity\User::ROLE_STUDENT);
+$password = $kernel->getContainer()->get('security.password_encoder')
+    ->encodePassword($user3, 'Test1234');
+$user3->setPassword($password);
+$user3->setUsername('41wima1bwi');
+
+$em->persist($user3);
+
+/* Profs */
+$user4 = new AppBundle\Entity\User();
+$user4->setFirstname('Oliver');
+$user4->setLastname('Höß');
+$user4->addRole(AppBundle\Entity\User::ROLE_PROF);
+$password = $kernel->getContainer()->get('security.password_encoder')
+    ->encodePassword($user4, 'Test1234');
+$user4->setPassword($password);
+$user4->setUsername('hoess');
+$user4->setTitle('Prof. Dr.');
+
+$user4->addStudyCourse($studycourse8);
+$user4->addStudyCourse($studycourse9);
+
+$em->persist($user4);
+
+$user5 = new AppBundle\Entity\User();
+$user5->setFirstname('Ralf');
+$user5->setLastname('Kramer');
+$user5->addRole(AppBundle\Entity\User::ROLE_PROF);
+$password = $kernel->getContainer()->get('security.password_encoder')
+    ->encodePassword($user5, 'Test1234');
+$user5->setPassword($password);
+$user5->setUsername('kramer');
+$user5->setTitle('Prof. Dr.');
+
+$user5->addStudyCourse($studycourse8);
+$user5->addStudyCourse($studycourse9);
+
+$em->persist($user5);
+
+$user6 = new AppBundle\Entity\User();
+$user6->setFirstname('Ulrike');
+$user6->setLastname('Pado');
+$user6->addRole(AppBundle\Entity\User::ROLE_PROF);
+$password = $kernel->getContainer()->get('security.password_encoder')
+    ->encodePassword($user6, 'Test1234');
+$user6->setPassword($password);
+$user6->setUsername('pado');
+$user6->setTitle('Prof. Dr.');
+
+$user6->addStudyCourse($studycourse8);
+
+$em->persist($user6);
+
+$em->flush();
+
+/* Meeting Slots */
+// Open Meeting for prof 'hoess'
+$meeting01 = new AppBundle\Entity\Meeting();
+$meeting01->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. 18 .' 15:00:00'));
+$meeting01->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . 18 .' 16:30:00'));
+$meeting01->setStatus(\AppBundle\Entity\Slot::STATUS_OPEN);
+$meeting01->setProfessor($user4);
+$em->persist($meeting01);
+
+// Accepted Meeting for prof 'hoess'
+$meeting02 = new AppBundle\Entity\Meeting();
+$meeting02->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. 23 .' 13:00:00'));
+$meeting02->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . 23 .' 14:30:00'));
+$meeting02->setStatus(\AppBundle\Entity\Slot::STATUS_ACCEPTED);
+$meeting02->setProfessor($user4);
+$em->persist($meeting02);
+
+// Canceled Meeting for prof 'hoess'
+$meeting03 = new AppBundle\Entity\Meeting();
+$meeting03->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. 15 .' 11:00:00'));
+$meeting03->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . 15 .' 12:30:00'));
+$meeting03->setStatus(\AppBundle\Entity\Slot::STATUS_CANCELED);
+$meeting03->setProfessor($user4);
+$em->persist($meeting03);
+
+// Declined Meeting for prof 'hoess'
+$meeting04 = new AppBundle\Entity\Meeting();
+$meeting04->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. 24 .' 15:00:00'));
+$meeting04->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . 24 .' 16:30:00'));
+$meeting04->setStatus(\AppBundle\Entity\Slot::STATUS_DECLINED);
+$meeting04->setProfessor($user4);
+$em->persist($meeting04);
+
+
+// Open Meeting for prof 'kramer'
+$meeting05 = new AppBundle\Entity\Meeting();
+$meeting05->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. 24 .' 15:00:00'));
+$meeting05->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . 24 .' 16:30:00'));
+$meeting05->setStatus(\AppBundle\Entity\Slot::STATUS_OPEN);
+$meeting05->setProfessor($user5);
+$em->persist($meeting05);
+
+// Declined Meeting for prof 'kramer'
+$meeting05 = new AppBundle\Entity\Meeting();
+$meeting05->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. 25 .' 13:30:00'));
+$meeting05->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . 25 .' 15:00:00'));
+$meeting05->setStatus(\AppBundle\Entity\Slot::STATUS_DECLINED);
+$meeting05->setProfessor($user5);
+$em->persist($meeting05);
+
+
+// Canceled Meeting for prof 'pado'
+$meeting06 = new AppBundle\Entity\Meeting();
+$meeting06->setStartDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-'. 13 .' 13:30:00'));
+$meeting06->setEndDate($date = \DateTime::createFromFormat('Y-m-d H:i:s', '2017-01-' . 13 .' 15:00:00'));
+$meeting06->setStatus(\AppBundle\Entity\Slot::STATUS_DECLINED);
+$meeting06->setProfessor($user6);
+$em->persist($meeting06);
+
+
+$em->flush();
+
+
+/* Slots */
+// ad slot to marvin on accepted meeting from hoess which starts on 23.01 - 13.00-14.30
+$slot01 = new AppBundle\Entity\Slot();
+$slot01->setMeeting($meeting02);
+$slot01->setStudent($user3);
+$slot01->setName('Bachelor-Thesis');
+$slot01->setStatus(\AppBundle\Entity\Slot::STATUS_ACCEPTED);
+$slot01->setDuration(30);
+$slot01->setDate($meeting02->getStartDate());
+$slot01->setComment('Student Bachelorthema Besprechung Nr. 1: ' . $user3->getFirstname() . ' ' . $user3->getLastname());
+$em->persist($slot01);
+
+// ad slot to flo on accepted meeting from hoess which starts on 23.01 - 13.00-14.30
+$slot02 = new AppBundle\Entity\Slot();
+$slot02->setMeeting($meeting02);
+$slot02->setStudent($user1);
+$slot02->setName('Vorlesung Nachfragen');
+$slot02->setDuration(20);
+$slot02->setDate($slot01->getDate()->add(new \DateInterval('PT' . $slot01->getDuration() . 'M')));
+$slot02->setComment('Student hat Nachfragen zu Abbildung 5.X: ' . $user1->getFirstname() . ' ' . $user1->getLastname());
+$em->persist($slot02);
+
+// ad slot to patrick on accepted meeting from hoess which starts on 23.01 - 13.00-14.30
+$slot03 = new AppBundle\Entity\Slot();
+$slot03->setMeeting($meeting02);
+$slot03->setStudent($user2);
+$slot03->setName('Fragen zu BPMN');
+$slot03->setDuration(30);
+$slot03->setDate($slot02->getDate()->add(new \DateInterval('PT' . $slot02->getDuration() . 'M')));
+$slot03->setComment('Student hat Nachfragen zu Thema BPMN: ' . $user2->getFirstname() . ' ' . $user2->getLastname());
+$em->persist($slot03);
+
+$em->flush();
+
+/* Meetings */
 
 // add user (students)
-for($i=0; $i<=100; $i++)
+/*for($i=0; $i<=100; $i++)
 {
     $user = new AppBundle\Entity\User();
     $user->setFirstname('Studentvorname' . $i);
@@ -167,9 +349,9 @@ for($i=0; $i<=100; $i++)
     $em->persist($user);
     $em->flush();
 
-}
+}*/
 // meetings
-$firstDate = 4;
+/*$firstDate = 4;
 for($i=1; $i<=10; $i++) {
     $user15 = $em->getRepository('AppBundle:User')
         ->findOneBy(['username' => 'professormail' . $i . '@hft-stuttgart.de']);
@@ -196,10 +378,10 @@ for($i=1; $i<=10; $i++) {
         $firstDate = $firstDate + 1;
     }
 }
-
+*/
 
 // slots
-$studentNr = 1;
+/*$studentNr = 1;
 for($i=1; $i<=15; $i++) {
     $getMeetingFromId = $em->getRepository('AppBundle:Meeting')
         ->findOneBy(['id' => $studentNr]);
@@ -234,15 +416,15 @@ $student = $em->getRepository('AppBundle:User')
     ->findOneBy(['username' => 'studentmail1@hft-stuttgart.de']);
 
 /** @var \AppBundle\Entity\Slot $slot1 */
-$slot1 = $em->getRepository('AppBundle:Meeting')
+/*$slot1 = $em->getRepository('AppBundle:Meeting')
     ->findOneBy(['id' => 10]);
 $slot1->setStudent($student);
 $em->persist($slot1);
 
-/** @var \AppBundle\Entity\Slot $slot2 */
+/** @var \AppBundle\Entity\Slot $slot2 *//*
 $slot2 = $em->getRepository('AppBundle:Meeting')
     ->findOneBy(['id' => 11]);
 $slot2->setStudent($student);
 $em->persist($slot2);
 
-$em->flush();
+$em->flush();*/

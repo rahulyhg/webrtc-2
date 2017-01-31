@@ -77,7 +77,7 @@ webrtc/
  |                                                  || phpunit configuration
  ├──tests.bootstrap.php                           * Patrick, Sina, Tanja, Jennifer, Hadi 
  |                                                  || Test configurations and test data
- ├──swagger.yml                                   * Markus 
+ ├──swagger.yaml                                  * Markus 
  |                                                  || Swagger API specification
  │
 ```

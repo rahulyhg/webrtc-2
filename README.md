@@ -24,7 +24,7 @@ If you want to install the project locally, then:
 
 ## Contributing
 
-Patrick + (Markus Swagger.io  + Sina, Tanja, Jennifer, Hadi
+Patrick, Markus, Sina, Tanja, Jennifer, Hadi
 
 ## Code responsibilities + functionality
 

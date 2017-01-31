@@ -26,7 +26,7 @@ If you want to install the project locally, then:
 
 Patrick + (Markus Swagger.io  + Sina, Tanja, Jennifer, Hadi
 
-## Code Responsibilities + functionality
+## Code responsibilities + functionality
 
 Symfony/REST API admin: Patrick
 
@@ -37,31 +37,44 @@ webrtc/
  │
  ├──src/                        
  |   ├──AppBundle/                    
-        ├──Api/                                   * Patrick || Exception Handling + Response Handling
+        ├──Api/                                   * Patrick 
+                                                    || Exception Handling + Response Handling
            ├──ApiProblem.php                        * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ApiProblemException.php               * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ResponseFactory.php                   * + Code adapted from: http://knpuniversity.com/tracks/rest
-        ├──Controller/                            * Patrick + Markus Swagger || API Endpoints
-        ├──Entity/                                * Patrick, Sina, Tanja, Jennifer, Hadi || Entities from data model
-        ├──EventListener/                         * Patrick || Exception and Websocket Connect
+        ├──Controller/                            * Patrick + Markus Swagger
+                                                    || API Endpoints
+        ├──Entity/                                * Patrick, Sina, Tanja, Jennifer, Hadi
+                                                    || Entities from data model
+        ├──EventListener/                         * Patrick
+                                                    || Exception and Websocket Connect
            ├──ApiExceptionSubscriber.php            * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──...                                   
-        ├──FormType/                              * Patrick || Formular handling
-        ├──Resources/                             * Patrick || Services and websocket channel routing
-        ├──Security/                              * Patrick || Token authentication handling
-        ├──Test/                                  * Patrick || Test configuration classes
+        ├──FormType/                              * Patrick
+                                                    || Formular handling
+        ├──Resources/                             * Patrick
+                                                    || Services and websocket channel routing
+        ├──Security/                              * Patrick
+                                                    || Token authentication handling
+        ├──Test/                                  * Patrick
+                                                    || Test configuration classes
            ├──ResponseAsserter.php                  * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──...                                   
-        ├──Topic/                                 * Patrick || Websocket Signaling channel
+        ├──Topic/                                 * Patrick
+                                                    || Websocket Signaling channel
  │
- ├──tests/                                        * Patrick || phpunit functional tests
+ ├──tests/                                        * Patrick
+                                                    || phpunit functional tests
  │
- ├──phpunit.xml.dist                              * Patrick || phpunit configuration
- ├──tests.bootstrap.php                           * Patrick, Sina, Tanja, Jennifer, Hadi || Test configurations and test data
+ ├──phpunit.xml.dist                              * Patrick
+                                                    || phpunit configuration
+ ├──tests.bootstrap.php                           * Patrick, Sina, Tanja, Jennifer, Hadi 
+                                                    || Test configurations and test data
  │
 ```
 
 All files/folders not mentioned here are part of the symfony bundle and/or vendor libraries.
+Files are also marked with references within the code.
 
 ## Credits
 

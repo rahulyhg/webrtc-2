@@ -42,7 +42,7 @@ webrtc/
            ├──ApiProblem.php                        * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ApiProblemException.php               * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ResponseFactory.php                   * + Code adapted from: http://knpuniversity.com/tracks/rest
-        ├──Controller/                            * Patrick + Markus (Swagger specification)
+        ├──Controller/                            * Patrick + Markus (Based on Swagger api specification)
         |                                           || API Endpoints
            ├──...   
         ├──Entity/                                * Patrick, Sina, Tanja, Jennifer, Hadi, Markus
@@ -77,6 +77,8 @@ webrtc/
  |                                                  || phpunit configuration
  ├──tests.bootstrap.php                           * Patrick, Sina, Tanja, Jennifer, Hadi 
  |                                                  || Test configurations and test data
+ ├──swagger.yml                                   * Markus 
+ |                                                  || Swagger API specification
  │
 ```
 

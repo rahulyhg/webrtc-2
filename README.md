@@ -83,7 +83,8 @@ webrtc/
 ```
 
 All files/folders not mentioned here are part of the symfony bundle and/or vendor libraries.
-Files are also marked with references within the code.
+
+Our files are also marked with references within the code.
 
 ## Credits
 

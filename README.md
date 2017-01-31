@@ -90,6 +90,7 @@ Files are also marked with references within the code.
 - Symfony: http://symfony.com/
 - Ratchet: http://socketo.me/
 - Apache: https://httpd.apache.org/
+- Swagger: http://editor.swagger.io/
 
 - Composer + symfony vendor packages used in the project: https://getcomposer.org/
 

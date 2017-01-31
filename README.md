@@ -42,10 +42,10 @@ webrtc/
            ├──ApiProblem.php                        * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ApiProblemException.php               * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ResponseFactory.php                   * + Code adapted from: http://knpuniversity.com/tracks/rest
-        ├──Controller/                            * Patrick + Markus Swagger
+        ├──Controller/                            * Patrick + Markus (Swagger specification)
         |                                           || API Endpoints
            ├──...   
-        ├──Entity/                                * Patrick, Sina, Tanja, Jennifer, Hadi
+        ├──Entity/                                * Patrick, Sina, Tanja, Jennifer, Hadi, Markus
         |                                           || Entities from data model
            ├──...   
         ├──EventListener/                         * Patrick

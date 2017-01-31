@@ -44,27 +44,34 @@ webrtc/
            ├──ResponseFactory.php                   * + Code adapted from: http://knpuniversity.com/tracks/rest
         ├──Controller/                            * Patrick + Markus Swagger
         |                                           || API Endpoints
+           ├──...   
         ├──Entity/                                * Patrick, Sina, Tanja, Jennifer, Hadi
         |                                           || Entities from data model
+           ├──...   
         ├──EventListener/                         * Patrick
-                                                    || Exception and Websocket Connect
+        |                                           || Exception and Websocket Connect
            ├──ApiExceptionSubscriber.php            * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──...                                   
         ├──FormType/                              * Patrick
         |                                           || Formular handling
+           ├──...   
         ├──Resources/                             * Patrick
         |                                           || Services and websocket channel routing
+           ├──...   
         ├──Security/                              * Patrick
         |                                           || Token authentication handling
+           ├──...   
         ├──Test/                                  * Patrick
         |                                           || Test configuration classes
            ├──ResponseAsserter.php                  * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──...                                   
         ├──Topic/                                 * Patrick
         |                                           || Websocket Signaling channel
+           ├──...   
  │
  ├──tests/                                        * Patrick
  |                                                  || phpunit functional tests
+    ├──...   
  │
  ├──phpunit.xml.dist                              * Patrick
  |                                                  || phpunit configuration

@@ -93,7 +93,7 @@ Our files are also marked with references within the code.
 - Apache: https://httpd.apache.org/
 - Swagger: http://editor.swagger.io/
 
-- Composer + symfony vendor packages used in the project: https://getcomposer.org/
+- Composer + symfony vendor packages used in the project, see in composer.json file and: https://getcomposer.org/
 
 
 ## License

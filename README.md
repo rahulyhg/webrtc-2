@@ -33,8 +33,8 @@ Symfony/REST API admin: Patrick
 ```
 webrtc/
  ├──app/                        
- |   ├──config/                                   * Patrick || project main config files
- │
+ |   ├──config/                                   * Patrick 
+ |                                                  || project main config files
  ├──src/                        
  |   ├──AppBundle/                    
         ├──Api/                                   * Patrick 

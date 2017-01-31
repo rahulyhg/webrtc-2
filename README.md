@@ -38,38 +38,38 @@ webrtc/
  ├──src/                        
  |   ├──AppBundle/                    
         ├──Api/                                   * Patrick 
-                                                    || Exception Handling + Response Handling
+        |                                           || Exception Handling + Response Handling
            ├──ApiProblem.php                        * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ApiProblemException.php               * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──ResponseFactory.php                   * + Code adapted from: http://knpuniversity.com/tracks/rest
         ├──Controller/                            * Patrick + Markus Swagger
-                                                    || API Endpoints
+        |                                           || API Endpoints
         ├──Entity/                                * Patrick, Sina, Tanja, Jennifer, Hadi
-                                                    || Entities from data model
+        |                                           || Entities from data model
         ├──EventListener/                         * Patrick
                                                     || Exception and Websocket Connect
            ├──ApiExceptionSubscriber.php            * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──...                                   
         ├──FormType/                              * Patrick
-                                                    || Formular handling
+        |                                           || Formular handling
         ├──Resources/                             * Patrick
-                                                    || Services and websocket channel routing
+        |                                           || Services and websocket channel routing
         ├──Security/                              * Patrick
-                                                    || Token authentication handling
+        |                                           || Token authentication handling
         ├──Test/                                  * Patrick
-                                                    || Test configuration classes
+        |                                           || Test configuration classes
            ├──ResponseAsserter.php                  * + Code adapted from: http://knpuniversity.com/tracks/rest
            ├──...                                   
         ├──Topic/                                 * Patrick
-                                                    || Websocket Signaling channel
+        |                                           || Websocket Signaling channel
  │
  ├──tests/                                        * Patrick
-                                                    || phpunit functional tests
+ |                                                  || phpunit functional tests
  │
  ├──phpunit.xml.dist                              * Patrick
-                                                    || phpunit configuration
+ |                                                  || phpunit configuration
  ├──tests.bootstrap.php                           * Patrick, Sina, Tanja, Jennifer, Hadi 
-                                                    || Test configurations and test data
+ |                                                  || Test configurations and test data
  │
 ```
 
@@ -82,7 +82,7 @@ Files are also marked with references within the code.
 - Ratchet: http://socketo.me/
 - Apache: https://httpd.apache.org/
 
-- Composer + symfony vendor packages used in the project:
+- Composer + symfony vendor packages used in the project: https://getcomposer.org/
 
 
 ## License

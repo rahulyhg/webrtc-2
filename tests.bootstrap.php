@@ -16,6 +16,7 @@ $kernel = new AppKernel('test', true); // create a "test" kernel
 $kernel->boot();
 $application = new Application($kernel);
 $application->setAutoExit(false);
+$em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
 
 $db_drop = new ArrayInput(array(
     'command' => 'doctrine:schema:drop',
@@ -32,6 +33,8 @@ $db_create = new ArrayInput(array(
 $application->run($db_create, new ConsoleOutput());
 
 
+
+// add real data
 // add studycourses
 $studycourse1 = new AppBundle\Entity\Studycourse();
 $studycourse1->setName("Architektur");
@@ -91,9 +94,6 @@ $em->persist($studycourse13);
 $em->persist($studycourse14);
 
 $em->flush();
-
-// add real data
-$em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
 
 
 /* add testdata / fixtures here */
@@ -256,22 +256,26 @@ $slot01->setDuration(30);
 $slot01->setDate($meeting02->getStartDate());
 $slot01->setComment('Student Bachelorthema Besprechung Nr. 1: ' . $user3->getFirstname() . ' ' . $user3->getLastname());
 $em->persist($slot01);
+$em->flush();
 
 // ad slot to flo on accepted meeting from hoess which starts on 23.01 - 13.00-14.30
 $slot02 = new AppBundle\Entity\Slot();
 $slot02->setMeeting($meeting02);
 $slot02->setStudent($user1);
 $slot02->setName('Vorlesung Nachfragen');
+$slot02->setStatus(\AppBundle\Entity\Slot::STATUS_ACCEPTED);
 $slot02->setDuration(20);
 $slot02->setDate($slot01->getDate()->add(new \DateInterval('PT' . $slot01->getDuration() . 'M')));
 $slot02->setComment('Student hat Nachfragen zu Abbildung 5.X: ' . $user1->getFirstname() . ' ' . $user1->getLastname());
 $em->persist($slot02);
+$em->flush();
 
 // ad slot to patrick on accepted meeting from hoess which starts on 23.01 - 13.00-14.30
 $slot03 = new AppBundle\Entity\Slot();
 $slot03->setMeeting($meeting02);
 $slot03->setStudent($user2);
 $slot03->setName('Fragen zu BPMN');
+$slot03->setStatus(\AppBundle\Entity\Slot::STATUS_ACCEPTED);
 $slot03->setDuration(30);
 $slot03->setDate($slot02->getDate()->add(new \DateInterval('PT' . $slot02->getDuration() . 'M')));
 $slot03->setComment('Student hat Nachfragen zu Thema BPMN: ' . $user2->getFirstname() . ' ' . $user2->getLastname());

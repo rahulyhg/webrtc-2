@@ -1,0 +1,468 @@
+swagger: '2.0'
+info:
+  title: EduTalk API
+  description: Connect with the EduTalk API
+  version: "1.0.0"
+# the domain of the service
+host: chor-am-killesberg.de:8001
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /web/app_test.php
+
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication. Works over `HTTPS`
+
+paths:
+
+  /hello:
+    post:
+      tags:
+        - Test
+      description: |
+        The endpoint for testing the api.
+      responses:
+        "200":
+          description: Test successful.
+
+  /users:
+    post:
+      tags:
+        - Professor
+        - Student
+      description: |
+        The user endpoint to create a new user.
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added to the server.
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: the created user
+          schema:
+            $ref: '#/definitions/User'
+
+  /users/{userId}/change-password:
+    patch:
+      tags:
+        - Professor
+        - Student
+      description: |
+        The user endpoint to update the user.
+      parameters:
+        - in: path
+          name: userId
+          description: id of the user
+          required: true
+          type: integer
+        - in: body
+          name: newPassword
+          description: User object that needs to be changed
+          required: true
+          schema:
+            $ref: '#/definitions/PasswordChange'
+      responses:
+        "200":
+          description: the updated user
+          schema:
+            $ref: '#/definitions/User'
+
+  /users/professors:
+    get:
+      tags:
+        - Student
+      description: |
+         The professors endpoint returns all professors.
+      responses:
+        "200":
+           description: all professors
+           schema:
+             type: array
+             items:
+               $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Errors'
+
+  /users/{userId}/meetings/professor:
+    get:
+      tags:
+        - Professor
+      description: |
+        The meetings endpoint returns all the meetings a given user has.
+      parameters:
+        - in: path
+          name: userId
+          description: id of the professor
+          required: true
+          type: string
+      responses:
+        "200":
+          description: An array of price estimates by product
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MeetingProfessor'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Errors'
+            
+  /users/{userId}/meetings/student:
+    get:
+      tags:
+        - Student
+      description: |
+        The meetings endpoint returns all the meetings a given user has.
+      parameters:
+        - in: path
+          name: userId
+          description: id of the professor
+          required: true
+          type: string
+      responses:
+        "200":
+          description: An array of price estimates by product
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MeetingStudent'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Errors'
+
+  /meetings/{meetingId}/slots:
+    post:
+      tags:
+        - Student
+      description: |
+        The slots endpoint takes a new slot for a meeting.
+      parameters:
+        - in: path
+          name: meetingId
+          description: id of the meeting
+          required: true
+          type: string
+        - in: body
+          name: slot
+          description: values for the slot creation
+          required: true
+          schema:
+            $ref: '#/definitions/SlotCreation'
+      responses:
+        "201":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Slot'
+
+  /meetings/{meetingId}/slots/{slotId}:
+    patch:
+      tags:
+        - Professor
+      description: |
+        The slot endpoint takes changes to a specific slot like duration or status.
+      parameters:
+        - in: path
+          name: meetingId
+          description: id of the meeting
+          required: true
+          type: string
+        - in: path
+          name: slotId
+          description: id of the slot
+          required: true
+          type: string
+        - in: body
+          name: changeSlot
+          description: Slot object that needs to be changed.
+          required: true
+          schema:
+            $ref: '#/definitions/SlotChange'
+      responses:
+        "200":
+          description: Success
+
+  /users/{userId}/slots:
+    get:
+      tags:
+        - Student
+      description: |
+        Gives back all slots for a given student.
+      parameters:
+        - in: path
+          name: userId
+          description: id of the user
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Slot'
+
+  /users/{userId}/meetings:
+    post:
+      tags:
+        - Professor
+      description: |
+        The meeting endpoint to create a new meeting.
+      parameters:
+        - in: path
+          name: userId
+          description: id of the user
+          required: true
+          type: string
+        - in: body
+          name: jsonPatch
+          required: true
+          schema:
+            $ref: "#/definitions/MeetingProfessor"
+      responses:
+        "201":
+          description: Success
+
+  /users/{userId}/meetings/{meetingId}:
+    patch:
+      tags:
+        - Professor
+      description: |
+        The meeting endpoint takes changes tocancel a meeting.
+      parameters:
+        - in: path
+          name: userId
+          description: id of the user
+          required: true
+          type: string
+        - in: path
+          name: meetingId
+          description: id of the meeting
+          required: true
+          type: string
+        - in: body
+          name: jsonPatch
+          required: true
+          schema:
+            $ref: "#/definitions/MeetingChange"
+      responses:
+        "201":
+          description: Success
+
+  /tokens:
+    post:
+      security:
+       - basicAuth: []
+      description: |
+        The token endpoint takes the login information form the user und sends back a token.
+      tags:
+        - Token
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/Login'
+
+definitions:
+
+  Login:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/User'
+
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific user.
+      username:
+        type: string
+        description: email adress for the login.
+      firstname:
+        type: string
+        description: First name of user.
+      lastname:
+        type: string
+        description: Last name of user.
+      password:
+        type: string
+        description: Password for the login.
+      roles:
+        type: array
+        items:
+          type: string
+          description: Role of user.
+          enum:
+            - ROLE_PROF
+            - ROLE_STUDENT
+            
+      studyCourses:
+        type: array
+        items:
+          $ref: '#/definitions/StudyCourse'
+
+  MeetingProfessor:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific meeting.
+      startDate:
+        type: string
+        format: date
+        description: Time when the meeting starts.
+      endDate:
+        type: string
+        format: date
+        description: Time when the meeting ends.
+      status:
+        type: string
+        description: Status of the meeting.
+        enum:
+          - active
+          - canceled
+      slots:
+        type: array
+        items:
+          $ref: '#/definitions/Slot'
+
+  MeetingStudent:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific meeting.
+      startDate:
+        type: string
+        format: date
+        description: Time when the meeting starts.
+      endDate:
+        type: string
+        format: date
+        description: Time when the meeting ends.
+      status:
+        type: string
+        description: Status of the meeting.
+        enum:
+          - OPEN
+          - CANCELED
+      professor:
+        $ref: '#/definitions/User'
+
+  PasswordChange:
+    type: object
+    properties:
+      app_password[newPassword][first]:
+        type: string
+        description: New password to set.
+      app_password[newPassword][second]:
+        type: string
+        description: New password to set.
+      app_password[oldPassword]:
+        type: string
+        description: Old password for varification.
+
+  Slot:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific slot.
+      name:
+        type: string
+        description: Display name of meeting.
+      duration:
+        type: integer
+        description: Duration of the slot.
+      date:
+        type: string
+        format: date
+        description: Time when the meeting starts.
+      comment:
+        type: string
+        description: Comment field for the professor and the student.
+      status:
+        type: string
+        description: Status of the slot.
+        enum:
+          - OPEN
+          - ACCEPTED
+          - DECLINED
+          - CANCELED
+      meeting:
+        $ref: '#/definitions/MeetingStudent'
+      student:
+        $ref: '#/definitions/User'
+  
+  SlotCreation:
+    type: object
+    properties:
+      app_slot_create[name]:
+        type: string
+        description: Display name of meeting.
+      app_slot_create[duration]:
+        type: integer
+        description: Duration of the slot.
+      app_slot_create[comment]:
+        type: string
+        description: Comment field for the professor and the student.
+
+  MeetingChange:
+    type: object
+    properties:
+      app_meeting_edit[status]:
+        type: string
+        description: Status of the meeting. Must be changed by the professor.
+        enum:
+          - CANCELED
+
+  SlotChange:
+    type: object
+    properties:
+      app_slot_edit[duration]:
+        type: integer
+        description: Duration of the slot.
+      app_slot_edit[comment]:
+        type: string
+        description: Comment field for the professor and the student.
+      app_slot_edit[status]:
+        type: string
+        description: Status of the slot. Must be changed by the professor.
+        enum:
+          - ACCEPTED
+          - DECLINED
+          - CANCELED
+
+  StudyCourse:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific study course.
+      name:
+        type: string
+        description: Display name of study course.
+
+  Errors:
+    type: object
+    properties:
+      code:
+        type: integer
+      type:
+        type: string
+      message:
+        type: string
+      fields:
+        type: string

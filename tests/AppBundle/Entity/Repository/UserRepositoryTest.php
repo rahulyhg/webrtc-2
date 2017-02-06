@@ -33,6 +33,6 @@ class UserRepositoryTest extends KernelTestCase
             ->findByRole(User::ROLE_PROF);
 
         $this->assertNotNull($profs);
-        $this->assertCount(101, $profs);
+        $this->assertCount(5, $profs);
     }
 }
